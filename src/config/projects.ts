@@ -1,6 +1,6 @@
 // projects
 export const projectHeadLine = "What I've done and what I'm doing."
-export const projectIntro = "I've worked on a variety of projects, from simple websites to complex web applications. And many of them are open-source. Here are a few of my favorites."
+export const projectIntro = "I've worked on a variety of projects, from simple websites to complex web applications. Here's a few ."
 
 export type ProjectItemType = {
     name: string
@@ -19,13 +19,13 @@ export type ProjectItemType = {
   // projects 
   export const projects: Array<ProjectItemType> = [
     {
-      name: '轻息',
+      name: 'ArtWork E-Commerce',
       description:
-        '一款呼吸训练、缓解压力、提升专注力的“小而美”app',
-      link: { href: 'apps.apple.com/us/app/%E8%BD%BB%E6%81%AF/id6742171445', label: '轻息' },
+        'An artwork e commerce app where you can sell and buy Artworks from excellent Artists',
+      link: { href: 'https://github.com/ivanlacson00-ux/artwork-ecommerce-system', label: 'Arthub' },
       category: ['App'],
       techStack: ['SwiftUI'],
-      tags: ['App', 'iOS'],
+      tags: ['App'],
       logo: '/images/icon/breathe-app-icon.png',
     },
     {

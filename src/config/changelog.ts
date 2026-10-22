@@ -32,15 +32,6 @@ export const changelogList: Array<ChangelogItemType> = [
     ]
   },
   {
-    date: '2024-12-10',
-    content: [
-      {
-        title: '👭 Add friends page',
-        description: 'Add friends page to list my friends'
-      },
-    ]
-  },
-  {
     date: '2024-12-23',
     content: [
       {

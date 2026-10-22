@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
@@ -33,11 +34,13 @@ export const cloudProps: Omit<ICloud, "children"> = {
     outlineColour: "#0000",
     maxSpeed: 0.04,
     minSpeed: 0.02,
-    // dragControl: false,
   },
 };
 
-export const renderCustomIcon = (icon: SimpleIcon, theme: string) => {
+export const renderCustomIcon = (
+  icon: SimpleIcon,
+  theme: string,
+) => {
   const bgHex = theme === "light" ? "#f3f2ef" : "#080510";
   const fallbackHex = theme === "light" ? "#6e6e73" : "#ffffff";
   const minContrastRatio = theme === "dark" ? 2 : 1.2;
@@ -63,12 +66,33 @@ export type DynamicCloudProps = {
 
 type IconData = Awaited<ReturnType<typeof fetchSimpleIcons>>;
 
-export default function IconCloud({ iconSlugs }: DynamicCloudProps) {
+export default function IconCloud({
+  iconSlugs,
+}: DynamicCloudProps) {
+  const [mounted, setMounted] = useState(false);
   const [data, setData] = useState<IconData | null>(null);
   const { theme } = useTheme();
 
   useEffect(() => {
-    fetchSimpleIcons({ slugs: iconSlugs }).then(setData);
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    fetchSimpleIcons({ slugs: iconSlugs })
+      .then((result) => {
+        if (!cancelled) {
+          setData(result);
+        }
+      })
+      .catch((error) => {
+        console.error("Failed to load cloud icons:", error);
+      });
+
+    return () => {
+      cancelled = true;
+    };
   }, [iconSlugs]);
 
   const renderedIcons = useMemo(() => {
@@ -78,6 +102,12 @@ export default function IconCloud({ iconSlugs }: DynamicCloudProps) {
       renderCustomIcon(icon, theme || "light"),
     );
   }, [data, theme]);
+
+  // Avoid rendering the cloud during server rendering
+  // and the initial client hydration.
+  if (!mounted) {
+    return null;
+  }
 
   return (
     // @ts-ignore

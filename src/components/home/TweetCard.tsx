@@ -219,6 +219,7 @@ export const TweetMedia = ({ tweet }: { tweet: EnrichedTweet }) => (
   </div>
 );
 
+
 export const MagicTweet = ({
   tweet,
   components,
@@ -229,7 +230,14 @@ export const MagicTweet = ({
   components?: TwitterComponents;
   className?: string;
 }) => {
+  if (!tweet || !Array.isArray(tweet.entities)) {
+    console.error("Invalid tweet data:", tweet);
+
+    return <TweetNotFound className={className} {...props} />;
+  }
+
   const enrichedTweet = enrichTweet(tweet);
+
   return (
     <div
       className={cn(
@@ -244,6 +252,7 @@ export const MagicTweet = ({
     </div>
   );
 };
+
 
 /**
  * TweetCard (Server Side Only)
